@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mapa de Bases - GTA San Andreas</title>
+  <title>Mapa de Bases - FZ</title>
 
   <!-- CSS de Leaflet -->
   <link 
@@ -17,12 +17,56 @@
       padding: 0;
       height: 100%;
       width: 100%;
-      background-color: #000;
+      background-color: #0b1a23;
     }
 
     #map {
-      width: 100vw;
-      height: 100vh;
+      width: 100%;
+      height: 100%;
+      min-height: 500px;
+    }
+
+    /* Estilo personalizado del tooltip informativo */
+    .base-tooltip {
+      background: rgba(15, 23, 42, 0.95) !important;
+      border: 1px solid #334155 !important;
+      border-radius: 8px !important;
+      color: #f8fafc !important;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 10px 14px !important;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5) !important;
+    }
+
+    .base-tooltip::before {
+      border-top-color: rgba(15, 23, 42, 0.95) !important;
+    }
+
+    .base-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #38bdf8;
+      margin-bottom: 6px;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 4px;
+    }
+
+    .base-info {
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .base-info strong {
+      color: #94a3b8;
+    }
+
+    .status-venta {
+      color: #22c55e;
+      font-weight: 600;
+    }
+
+    .status-clan {
+      color: #f59e0b;
+      font-weight: 600;
     }
   </style>
 </head>
@@ -34,53 +78,88 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
   <script>
-    // 1. Configuración de dimensiones del mapa (Coordenadas in-game de GTA San Andreas: -3000 a +3000)
-    const bounds = [[-3000, -3000], [3000, 3000]];
+    // 1. Límites del mapa completo de GTA San Andreas
+    const fullMapBounds = [[-3000, -3000], [3000, 3000]];
 
-    // 2. Inicialización del mapa en sistema CRS Simple (Plano 2D)
-    const map = L.map('map', {
-      crs: L.CRS.Simple,
-      minZoom: -2,
-      maxZoom: 3,
-      zoomControl: true
-    });
-
-    // 3. Capa de la imagen del mapa de GTA SA
-    // Puedes usar directamente la imagen completa del repositorio o alojarla localmente
-    const mapImageUrl = 'https://raw.githubusercontent.com/interactive-game-maps/grand_theft_auto_san_andreas/master/gtasa-satellite.jpg';
-    
-    L.imageOverlay(mapImageUrl, bounds).addTo(map);
-    map.fitBounds(bounds);
-
-    // 4. Lista con tus 37 marcadores de bases
-    // Cambia X (Eje Este/Oeste) y Y (Eje Norte/Sur) por las coordenadas in-game reales.
-    const bases = [
-      { id: 1, nombre: "Base Grove Street", x: 2493, y: -1670, descripcion: "Base principal de operaciones" },
-      { id: 2, nombre: "Base Aeropuerto LV", x: 1600, y: 1600, descripcion: "Pista de aterrizaje" },
-      { id: 3, nombre: "Base Área 69", x: 210, y: 1900, descripcion: "Instalación de alta seguridad" },
-      // ... Agrega aquí el resto hasta completar las 37
+    // Enfoque inicial que cubre Los Santos y Las Venturas
+    const lsLvBounds = [
+      [-3000, 0],
+      [3000, 3000]
     ];
 
-    // 5. Conversión de coordenadas de GTA SA a Leaflet [Y, X]
-    bases.forEach(base => {
-      // Leaflet toma [latitud, longitud], en un plano simple equivale a [Y, X]
-      const marker = L.marker([base.y, base.x]).addTo(map);
-
-      // Popup informativo al hacer clic en la base
-      marker.bindPopup(`
-        <div style="font-family: sans-serif;">
-          <h3 style="margin: 0 0 5px 0;">${base.nombre}</h3>
-          <p style="margin: 0; font-size: 13px;">${base.descripcion}</p>
-          <small style="color: #666;">Coords: (${base.x}, ${base.y})</small>
-        </div>
-      `);
+    // 2. Inicialización del mapa
+    const map = L.map('map', {
+      crs: L.CRS.Simple,
+      minZoom: -1.5,
+      maxZoom: 4,
+      maxBounds: fullMapBounds,
+      maxBoundsViscosity: 0.8
     });
 
-    // 6. Utilidad para desarrollo: muestra las coordenadas al hacer clic en el mapa
+    // 3. Imagen vectorial/radar original de GTA SA
+    const mapImageUrl = 'https://raw.githubusercontent.com/interactive-game-maps/grand_theft_auto_san_andreas/master/full_map.webp';
+    L.imageOverlay(mapImageUrl, fullMapBounds).addTo(map);
+
+    // Encuadre inicial
+    map.fitBounds(lsLvBounds);
+
+    // 4. Registro de bases
+    const bases = [
+      {
+        nombre: "BASE 1",
+        modo: "MODO DB",
+        estado: "EN VENTA",
+        precio: "$2.000.000",
+        x: 2030.8699951172,
+        y: 2046.0200195312
+      },
+      {
+        nombre: "BASE 3",
+        modo: "MODO A PIE",
+        estado: "EN VENTA",
+        precio: "$2.000.000",
+        x: 952.54919433594,
+        y: -909.57543945312
+      },
+      {
+        nombre: "BASE 4",
+        modo: "MODO A PIE",
+        estado: "[MFX] Mafia Fenix Italiana",
+        precio: "$2.000.000",
+        x: 1653.9140625,
+        y: -1655.5451660156
+      }
+    ];
+
+    // 5. Creación de marcadores y Tooltips al pasar el mouse
+    bases.forEach(base => {
+      // Leaflet utiliza coordenadas [Y, X]
+      const marker = L.marker([base.y, base.x]).addTo(map);
+
+      // Estilo dinámico para el estado
+      const estadoClase = base.estado === "EN VENTA" ? "status-venta" : "status-clan";
+
+      const contenidoHtml = `
+        <div class="base-title">${base.nombre}</div>
+        <div class="base-info">
+          <div><strong>MODO:</strong> ${base.modo}</div>
+          <div><strong>ESTADO:</strong> <span class="${estadoClase}">${base.estado}</span></div>
+          <div><strong>PRECIO:</strong> ${base.precio}</div>
+        </div>
+      `;
+
+      // Muestra la información al pasar el cursor (hover)
+      marker.bindTooltip(contenidoHtml, {
+        permanent: false,
+        direction: 'top',
+        className: 'base-tooltip',
+        offset: [0, -10]
+      });
+    });
+
+    // 6. Registro de coordenadas en consola al hacer clic
     map.on('click', function(e) {
-      const x = Math.round(e.latlng.lng);
-      const y = Math.round(e.latlng.lat);
-      console.log(`Coordenada seleccionada: X: ${x}, Y: ${y}`);
+      console.log(`${e.latlng.lng} Y ${e.latlng.lat}`);
     });
   </script>
 
