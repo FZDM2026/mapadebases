@@ -35,7 +35,10 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       padding: 10px 14px !important;
       box-shadow: 0 4px 12px rgba(0,0,0,0.5) !important;
-      max-width: 220px;
+      min-width: 220px;
+      width: max-content;
+      max-width: 300px;
+      white-space: normal;
     }
 
     .base-tooltip::before {
@@ -63,7 +66,7 @@
     .base-img {
       width: 100%;
       height: auto;
-      max-height: 120px;
+      max-height: 140px;
       object-fit: cover;
       border-radius: 6px;
       margin-top: 8px;
@@ -83,6 +86,7 @@
     .status-clan {
       font-weight: 700;
       text-shadow: 0 0 2px rgba(0,0,0,0.8);
+      word-break: break-word;
     }
   </style>
 </head>
@@ -146,6 +150,7 @@
         propietario: "EN VENTA",
         interior: 1,
         precio: "$2.000.000",
+        imagen: "http://imgfz.com/i/uLtv5VY.jpeg",
         x: 2030.8699951172,
         y: 2046.0200195312
       },
@@ -166,6 +171,7 @@
         colorHex: "#33CCFF",
         interior: 11,
         precio: "$2.000.000",
+        imagen: "http://imgfz.com/i/yLsKdUV.jpeg",
         x: 1653.9140625,
         y: -1655.5451660156
       },
@@ -176,6 +182,7 @@
         colorHex: "#F09F5B",
         interior: 6,
         precio: "$2.000.000",
+        imagen: "http://imgfz.com/i/tgARMNh.jpeg",
         x: 2493.8500976562,
         y: -1464.3900146484
       },
@@ -186,6 +193,7 @@
         colorHex: "#369976",
         interior: 1,
         precio: "$2.000.000",
+        imagen: "http://imgfz.com/i/L1rcBDJ.jpeg",
         x: 1568.0184326172,
         y: -1897.3316650391
       },
@@ -196,8 +204,19 @@
         colorHex: "#18F71F",
         interior: 5,
         precio: "$2.000.000",
+        imagen: "http://imgfz.com/i/dCiM2tk.jpeg",
         x: 2635.931640625,
         y: -2012.8436279297
+      },
+      {
+        nombre: "BASE 8",
+        modo: "MODO A PIE",
+        propietario: "EN VENTA",
+        interior: 1,
+        precio: "$2.000.000",
+        imagen: "http://imgfz.com/i/ujOci40.jpeg",
+        x: 1800.0,
+        y: -1900.0
       },
       {
         nombre: "BASE 9",
@@ -215,6 +234,7 @@
         colorHex: "#990033",
         interior: 3,
         precio: "$2.000.000",
+        imagen: "http://imgfz.com/i/7M0R4dL.jpeg",
         x: 2515.3100585938,
         y: 2297.3898925781
       },
@@ -224,6 +244,7 @@
         propietario: "EN VENTA",
         interior: 7,
         precio: "$2.000.000",
+        imagen: "http://imgfz.com/i/h9KydJH.jpeg",
         x: 2532.580078125,
         y: 1507.6600341797
       },
@@ -243,6 +264,7 @@
         colorHex: "#778899",
         interior: 1,
         precio: "$2.000.000",
+        imagen: "http://imgfz.com/i/smgqDap.jpeg",
         x: 2178.3850097656,
         y: -1770.3837890625
       },
@@ -252,6 +274,7 @@
         propietario: "EN VENTA",
         interior: 1,
         precio: "$2.000.000",
+        imagen: "http://imgfz.com/i/NRA2Kl1.jpeg",
         x: 1498.3800048828,
         y: -1581.8199462891
       },
@@ -261,6 +284,7 @@
         propietario: "EN VENTA",
         interior: 8,
         precio: "$2.000.000",
+        imagen: "http://imgfz.com/i/sPDqeTf.jpeg",
         x: 1419.3599853516,
         y: -1623.8199462891
       },
@@ -271,6 +295,7 @@
         colorHex: "#D63034",
         interior: 12,
         precio: "$2.000.000",
+        imagen: "http://imgfz.com/i/yaH2UuT.jpeg",
         x: 2245.4755859375,
         y: -1963.4865722656
       },
@@ -281,6 +306,7 @@
         colorHex: "#AE4B99",
         interior: 1,
         precio: "$2.000.000",
+        imagen: "http://imgfz.com/i/1vWq2NY.jpeg",
         x: 2474.7700195312,
         y: 2162.9399414062
       },
@@ -291,6 +317,7 @@
         colorHex: "#0495CD",
         interior: 6,
         precio: "$2.000.000",
+        imagen: "http://imgfz.com/i/aPBWU90.jpeg",
         x: 1788.701171875,
         y: -1385.3077392578
       },
@@ -301,6 +328,7 @@
         colorHex: "#E59338",
         interior: 1,
         precio: "$2.000.000",
+        imagen: "http://imgfz.com/i/0MktopK.jpeg",
         x: 2015.1474609375,
         y: -1732.6368408203
       },
@@ -335,7 +363,7 @@
         propietarioHtml = `<span class="status-clan" style="color: ${hexColor};">${base.propietario}</span>`;
       }
 
-      // Línea del precio: Palabra PRECIO en gris y la cifra en verde
+      // Línea del precio: Palabra PRECIO en gris y cifra en verde
       const precioHtml = enVenta ? `<div><strong>PRECIO:</strong> <span class="status-venta">${base.precio}</span></div>` : '';
 
       // Imagen opcional
