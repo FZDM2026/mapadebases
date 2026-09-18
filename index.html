@@ -97,10 +97,10 @@
     // 1. Límites del mapa completo de GTA San Andreas
     const fullMapBounds = [[-3000, -3000], [3000, 3000]];
 
-    // Enfoque inicial que cubre Los Santos y Las Venturas
-    const lsLvBounds = [
-      [-3000, 0],
-      [3000, 3000]
+    // Coordenadas de encuadre inicial: Región de Los Santos
+    const losSantosBounds = [
+      [-3000, 300],  // Esquina inferior izquierda (Suroeste de LS)
+      [-300, 3000]   // Esquina superior derecha (Noreste de LS)
     ];
 
     // 2. Inicialización del mapa
@@ -116,8 +116,8 @@
     const mapImageUrl = 'https://raw.githubusercontent.com/interactive-game-maps/grand_theft_auto_san_andreas/master/full_map.webp';
     L.imageOverlay(mapImageUrl, fullMapBounds).addTo(map);
 
-    // Encuadre inicial
-    map.fitBounds(lsLvBounds);
+    // Encuadre inicial por defecto enfocado directamente en Los Santos
+    map.fitBounds(losSantosBounds);
 
     // Iconos de marcadores (Azul para Ocupada, Verde para En Venta)
     const iconAzul = L.icon({
@@ -276,8 +276,8 @@
         propietarioHtml = `<span class="status-clan" style="color: ${hexColor};">${base.propietario}</span>`;
       }
 
-      // Línea del precio si está en venta
-      const precioHtml = enVenta ? `<div><strong>PRECIO:</strong> ${base.precio}</div>` : '';
+      // Línea del precio en verde si la base está en venta
+      const precioHtml = enVenta ? `<div class="status-venta">PRECIO: ${base.precio}</div>` : '';
 
       // Imagen opcional
       const imagenHtml = base.imagen ? `<img src="${base.imagen}" class="base-img" alt="${base.nombre}">` : '';
