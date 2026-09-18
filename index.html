@@ -254,6 +254,65 @@
         precio: "$2.000.000",
         x: 1498.3800048828,
         y: -1581.8199462891
+      },
+      {
+        nombre: "BASE 16",
+        modo: "MODO A PIE",
+        propietario: "EN VENTA",
+        interior: 8,
+        precio: "$2.000.000",
+        x: 1419.3599853516,
+        y: -1623.8199462891
+      },
+      {
+        nombre: "BASE 17",
+        modo: "MODO A PIE",
+        propietario: "[_H] Hard Players",
+        colorHex: "#D63034",
+        interior: 12,
+        precio: "$2.000.000",
+        x: 2245.4755859375,
+        y: -1963.4865722656
+      },
+      {
+        nombre: "BASE 18",
+        modo: "MODO DB",
+        propietario: "[il] Los illuminatis",
+        colorHex: "#AE4B99",
+        interior: 1,
+        precio: "$2.000.000",
+        x: 2474.7700195312,
+        y: 2162.9399414062
+      },
+      {
+        nombre: "BASE 19",
+        modo: "MODO A PIE",
+        propietario: "[TPz] Tripulacion Pirata",
+        colorHex: "#0495CD",
+        interior: 6,
+        precio: "$2.000.000",
+        x: 1788.701171875,
+        y: -1385.3077392578
+      },
+      {
+        nombre: "BASE 20",
+        modo: "MODO A PIE",
+        propietario: "[SXC] Sex Company",
+        colorHex: "#E59338",
+        interior: 1,
+        precio: "$2.000.000",
+        x: 2015.1474609375,
+        y: -1732.6368408203
+      },
+      {
+        nombre: "BASE 21",
+        modo: "MODO A PIE",
+        propietario: "[nuv] pros matando a noobs",
+        colorHex: "#42ACF5",
+        interior: 1,
+        precio: "$2.000.000",
+        x: 2171.8137207031,
+        y: -1615.3533935547
       }
     ];
 
@@ -276,8 +335,8 @@
         propietarioHtml = `<span class="status-clan" style="color: ${hexColor};">${base.propietario}</span>`;
       }
 
-      // Línea del precio en verde si la base está en venta
-      const precioHtml = enVenta ? `<div class="status-venta">PRECIO: ${base.precio}</div>` : '';
+      // Línea del precio: Palabra PRECIO en gris y la cifra en verde
+      const precioHtml = enVenta ? `<div><strong>PRECIO:</strong> <span class="status-venta">${base.precio}</span></div>` : '';
 
       // Imagen opcional
       const imagenHtml = base.imagen ? `<img src="${base.imagen}" class="base-img" alt="${base.nombre}">` : '';
