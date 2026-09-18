@@ -59,6 +59,10 @@
       color: #94a3b8;
     }
 
+    .modo-tag {
+      font-weight: 700;
+    }
+
     .status-venta {
       color: #22c55e;
       font-weight: 700;
@@ -122,7 +126,7 @@
       shadowSize: [41, 41]
     });
 
-    // 4. Registro de bases (Únicamente usando colorHex)
+    // 4. Registro de bases
     const bases = [
       {
         nombre: "BASE 1",
@@ -181,6 +185,62 @@
         precio: "$2.000.000",
         x: 2635.931640625,
         y: -2012.8436279297
+      },
+      {
+        nombre: "BASE 9",
+        modo: "MODO DB",
+        propietario: "EN VENTA",
+        interior: 4,
+        precio: "$2.000.000",
+        x: 1567.6916503906,
+        y: -1897.0811767578
+      },
+      {
+        nombre: "BASE 11",
+        modo: "MODO DB",
+        propietario: "[JF] Juego Frio",
+        colorHex: "#990033",
+        interior: 3,
+        precio: "$2.000.000",
+        x: 2515.3100585938,
+        y: 2297.3898925781
+      },
+      {
+        nombre: "BASE 12",
+        modo: "MODO DB",
+        propietario: "EN VENTA",
+        interior: 7,
+        precio: "$2.000.000",
+        x: 2532.580078125,
+        y: 1507.6600341797
+      },
+      {
+        nombre: "BASE 13",
+        modo: "MODO A PIE",
+        propietario: "EN VENTA",
+        interior: 5,
+        precio: "$2.000.000",
+        x: 1350.9399414062,
+        y: -1493.5799560547
+      },
+      {
+        nombre: "BASE 14",
+        modo: "MODO A PIE",
+        propietario: "[PB] Peaky Blinders",
+        colorHex: "#778899",
+        interior: 1,
+        precio: "$2.000.000",
+        x: 2178.3850097656,
+        y: -1770.3837890625
+      },
+      {
+        nombre: "BASE 15",
+        modo: "MODO A PIE",
+        propietario: "EN VENTA",
+        interior: 1,
+        precio: "$2.000.000",
+        x: 1498.3800048828,
+        y: -1581.8199462891
       }
     ];
 
@@ -189,15 +249,21 @@
       const enVenta = base.propietario === "EN VENTA";
       const iconoUsar = enVenta ? iconVerde : iconAzul;
 
+      // Color dinámico del MODO (DB -> #ff0b09, A PIE -> #ffff00)
+      const esDB = base.modo.toUpperCase().includes("DB");
+      const colorModo = esDB ? "#ff0b09" : "#ffff00";
+      const modoHtml = `<span class="modo-tag" style="color: ${colorModo};">${base.modo}</span>`;
+
+      // Propietario HTML
       let propietarioHtml = '';
       if (enVenta) {
         propietarioHtml = `<span class="status-venta">EN VENTA</span>`;
       } else {
-        // Usa el color Hex ingresado, o azul por defecto si no se puso nada
         const hexColor = base.colorHex || "#38bdf8";
         propietarioHtml = `<span class="status-clan" style="color: ${hexColor};">${base.propietario}</span>`;
       }
 
+      // Línea del precio si está en venta
       const precioHtml = enVenta ? `<div><strong>PRECIO:</strong> ${base.precio}</div>` : '';
 
       const marker = L.marker([base.y, base.x], { icon: iconoUsar }).addTo(map);
@@ -205,7 +271,7 @@
       const contenidoHtml = `
         <div class="base-title">${base.nombre}</div>
         <div class="base-info">
-          <div><strong>MODO:</strong> ${base.modo}</div>
+          <div><strong>MODO:</strong> ${modoHtml}</div>
           <div><strong>PROPIETARIO:</strong> ${propietarioHtml}</div>
           <div><strong>INTERIOR:</strong> ${base.interior}</div>
           ${precioHtml}
