@@ -65,7 +65,7 @@
     }
 
     .status-clan {
-      color: #f59e0b;
+      color: #38bdf8;
       font-weight: 600;
     }
   </style>
@@ -103,12 +103,32 @@
     // Encuadre inicial
     map.fitBounds(lsLvBounds);
 
+    // Configuración de iconos de marcadores (Azul para Ocupada, Verde para En Venta)
+    const iconAzul = L.icon({
+      iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
+      shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41]
+    });
+
+    const iconVerde = L.icon({
+      iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
+      shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41]
+    });
+
     // 4. Registro de bases
     const bases = [
       {
         nombre: "BASE 1",
         modo: "MODO DB",
         estado: "EN VENTA",
+        interior: 1,
         precio: "$2.000.000",
         x: 2030.8699951172,
         y: 2046.0200195312
@@ -117,6 +137,7 @@
         nombre: "BASE 3",
         modo: "MODO A PIE",
         estado: "EN VENTA",
+        interior: 3,
         precio: "$2.000.000",
         x: 952.54919433594,
         y: -909.57543945312
@@ -125,6 +146,7 @@
         nombre: "BASE 4",
         modo: "MODO A PIE",
         estado: "[MFX] Mafia Fenix Italiana",
+        interior: 11,
         precio: "$2.000.000",
         x: 1653.9140625,
         y: -1655.5451660156
@@ -133,18 +155,22 @@
 
     // 5. Creación de marcadores y Tooltips al pasar el mouse
     bases.forEach(base => {
-      // Leaflet utiliza coordenadas [Y, X]
-      const marker = L.marker([base.y, base.x]).addTo(map);
+      const enVenta = base.estado === "EN VENTA";
+      const iconoUsar = enVenta ? iconVerde : iconAzul;
+      const estadoClase = enVenta ? "status-venta" : "status-clan";
 
-      // Estilo dinámico para el estado
-      const estadoClase = base.estado === "EN VENTA" ? "status-venta" : "status-clan";
+      // Si está en venta muestra el precio, de lo contrario no incluye la línea de precio
+      const precioHtml = enVenta ? `<div><strong>PRECIO:</strong> ${base.precio}</div>` : '';
+
+      const marker = L.marker([base.y, base.x], { icon: iconoUsar }).addTo(map);
 
       const contenidoHtml = `
         <div class="base-title">${base.nombre}</div>
         <div class="base-info">
           <div><strong>MODO:</strong> ${base.modo}</div>
           <div><strong>ESTADO:</strong> <span class="${estadoClase}">${base.estado}</span></div>
-          <div><strong>PRECIO:</strong> ${base.precio}</div>
+          <div><strong>INTERIOR:</strong> ${base.interior}</div>
+          ${precioHtml}
         </div>
       `;
 
@@ -153,7 +179,7 @@
         permanent: false,
         direction: 'top',
         className: 'base-tooltip',
-        offset: [0, -10]
+        offset: [0, -30]
       });
     });
 
